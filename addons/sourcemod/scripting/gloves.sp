@@ -18,6 +18,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <cstrike>
+#include <multicolors>
 
 #pragma semicolon 1
 #pragma newdecls required
@@ -56,6 +57,7 @@ public void OnPluginStart()
 	RegConsoleCmd("sm_glove", CommandGlove);
 	RegConsoleCmd("sm_eldiven", CommandGlove);
 	RegConsoleCmd("sm_gllang", CommandGloveLang);
+	RegConsoleCmd("sm_refresh", CommandRefreshGlove);
 	
 	HookEvent("player_spawn", Event_PlayerSpawn, EventHookMode_Pre);
 	
@@ -104,6 +106,16 @@ public Action CommandGloveLang(int client, int args)
 	if (IsValidClient(client))
 	{
 		CreateLanguageMenu(client).Display(client, MENU_TIME_FOREVER);
+	}
+	return Plugin_Handled;
+}
+
+public Action CommandRefreshGlove(int client, int args)
+{
+	if (IsValidClient(client))
+	{
+		GetPlayerData(client);
+		CReplyToCommand(client, "{green}[Jaguares]{default} - Luvas atualizadas, você as tera no proximo respawn");
 	}
 	return Plugin_Handled;
 }
